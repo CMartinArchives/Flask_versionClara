@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Fiches oiseaux{% endblock %}
+
+{% block content %}
+
+<section class="bg-white rounded shadow-sm p-4 mb-4">
+    <h1 class="mb-3">Fiches oiseaux</h1>
+
+    <p class="text-muted mb-0">
+        Cette page présente les faucons crécerelles suivis dans le cadre du projet.
+        Chaque fiche permet de consulter les informations principales sur un individu
+        et d’accéder aux commentaires laissés par les utilisateurs.
+    </p>
+</section>
+
+<section class="bg-white rounded shadow-sm p-4">
+
+    {% if birds %}
+
+        <div class="row g-4">
+
+            {% for bird in birds %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="bird-card p-4 rounded h-100">
+
+                        <h2 class="h5 mb-3">
+                            {{ bird.nickname if bird.nickname != "NONE" else bird.falcon_code }}
+                        </h2>
+
+                        <p><strong>Balise GPS :</strong> {{ bird.tag_id if bird.tag_id else "Non renseignée" }}</p>
+                        <p class="mb-4"><strong>Code faucon :</strong> {{ bird.falcon_code }}</p>
+
+                        <a href="{{ url_for('bird_detail', falcon_id=bird.falcon_id) }}" class="btn btn-search">
+                            Voir la fiche
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <p class="text-muted mb-0">
+            Aucun oiseau n'est disponible pour le moment.
+        </p>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

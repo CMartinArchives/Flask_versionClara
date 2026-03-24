@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h1 class="h3 text-center mb-4">Connexion</h1>
+
+                <form method="post">
+                    <div class="mb-3">
+                        <label for="login" class="form-label">Identifiant ou adresse mail</label>
+                        <input type="text" id="login" name="login" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Mot de passe</label>
+                        <input type="password" id="password" name="password" class="form-control">
+                    </div>
+
+                    <button type="submit" class="btn btn-explore w-100">
+                        Se connecter
+                    </button>
+                </form>
+
+                <p class="text-center mt-3 mb-0">
+                    Pas encore de compte ?
+                    <a href="{{ url_for('register') }}">S’inscrire</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

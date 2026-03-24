@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+
+<section class="hero-section p-5 bg-white rounded shadow-sm mb-4">
+    <div class="row align-items-center g-4">
+
+        <div class="col-lg-7">
+            <h1 class="display-5 fw-bold mb-3">
+                Voie de Crécerelle
+            </h1>
+
+            <p class="lead mb-3">
+                Explorer la migration des faucons crécerelles à travers les données.
+            </p>
+
+            <p class="mb-4">
+                Cette application web permet de suivre les déplacements de faucons crécerelles
+                à partir de données GPS collectées sur plusieurs individus.
+                En combinant ces données avec des informations météorologiques et géographiques,
+                elle permet de visualiser et d’explorer les trajectoires migratoires
+                observées en Espagne.
+            </p>
+
+            <div class="d-flex flex-column flex-md-row gap-3">
+                <a href="{{ url_for('map_page') }}" class="btn btn-explore btn-lg">
+                    Explorer la carte
+                </a>
+
+                <a href="{{ url_for('search') }}" class="btn btn-search btn-lg">
+                    Rechercher dans les données
+                </a>
+            </div>
+
+        </div>
+
+        <div class="col-lg-5">
+            <div class="hero-side-box p-4 rounded">
+                <h2 class="h5 mb-3">Pourquoi cette application ?</h2>
+
+                <p class="mb-0">
+                    Le projet vise à rendre accessibles des données de suivi animal
+                    afin de mieux comprendre les déplacements migratoires d’un groupe
+                    de faucons crécerelles. L’application permet de transformer une base
+                    de données complexe en une interface interactive de visualisation
+                    et d’exploration.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+
+<section class="bg-white rounded shadow-sm p-4 mb-4">
+
+    <h2 class="h3 mb-3">Le faucon crécerelle</h2>
+
+    <p>
+        Le faucon crécerelle (<em>Falco tinnunculus</em>) est un petit rapace de la famille
+        des falconidés. On le reconnaît facilement à sa silhouette élancée et à son
+        vol caractéristique dit « en Saint-Esprit », lorsqu’il reste immobile dans l’air
+        en battant rapidement des ailes pour observer le sol.
+    </p>
+
+    <p>
+        L’espèce est très répandue en Europe, en Afrique et en Asie.
+        Si certaines populations sont sédentaires, celles situées dans les régions
+        plus septentrionales migrent à la fin de l’été vers des zones plus chaudes.
+        Ces migrations peuvent couvrir plusieurs milliers de kilomètres.
+    </p>
+
+    <p class="mb-0">
+        Comprendre ces déplacements est essentiel pour mieux étudier
+        les interactions entre comportement animal, environnement et climat.
+    </p>
+
+</section>
+
+
+
+<section class="bg-white rounded shadow-sm p-4 mb-4">
+
+    <h2 class="h3 mb-3">Un projet autour de la migration</h2>
+
+    <p>
+        Le projet s’appuie sur un ensemble de données de suivi GPS
+        concernant plusieurs dizaines de faucons crécerelles.
+        Ces oiseaux migrent entre l’Espagne et le Sahel occidental,
+        traversant différents environnements et conditions climatiques.
+    </p>
+
+    <p>
+        Afin de rendre ces trajectoires lisibles et exploitables,
+        les données ont été nettoyées, structurées et intégrées
+        dans une base relationnelle. L’application web permet ensuite
+        d’explorer ces informations de manière interactive.
+    </p>
+
+    <p class="mb-0">
+        Le projet croise plusieurs types de données :
+        positions GPS des oiseaux, informations météorologiques
+        et données géographiques sur les lieux traversés.
+    </p>
+
+</section>
+
+
+
+<section class="bg-white rounded shadow-sm p-4 mb-4">
+
+    <h2 class="h3 mb-3">Explorer les données</h2>
+
+    <div class="row g-3">
+
+        <div class="col-md-4">
+            <a href="{{ url_for('map_page') }}" class="feature-link text-decoration-none">
+                <div class="feature-tile p-3 rounded h-100">
+                    <h3 class="h5">Carte</h3>
+                    <p class="mb-0">
+                        Visualiser les trajectoires des oiseaux et repérer
+                        les principales zones de passage.
+                    </p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="{{ url_for('search') }}" class="feature-link text-decoration-none">
+                <div class="feature-tile p-3 rounded h-100">
+                    <h3 class="h5">Recherche</h3>
+                    <p class="mb-0">
+                        Interroger les données selon différents critères
+                        et explorer les passages enregistrés.
+                    </p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="{{ url_for('birds') }}" class="feature-link text-decoration-none">
+                <div class="feature-tile p-3 rounded h-100">
+                    <h3 class="h5">Fiches oiseaux</h3>
+                    <p class="mb-0">
+                        Consulter les informations détaillées sur
+                        chaque oiseau suivi dans l’étude.
+                    </p>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<section class="bg-white rounded shadow-sm p-4">
+
+    <h2 class="h3 mb-3">Comprendre les données</h2>
+
+    <p>
+        L’application est le résultat d’un travail plus large de traitement,
+        d’intégration et d’analyse des données.
+    </p>
+
+    <p class="mb-3">
+        Pour en savoir plus sur les sources utilisées, la structure de la base
+        de données et les différentes étapes du pipeline de traitement,
+        consulte la page dédiée à la méthodologie.
+    </p>
+
+    <a href="{{ url_for('methodology') }}" class="btn btn-outline-secondary">
+        Voir la méthodologie
+    </a>
+
+</section>
+
+{% endblock %}

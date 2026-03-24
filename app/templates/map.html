@@ -1,0 +1,249 @@
+{% extends "base.html" %}
+
+{% block title %}Carte des trajectoires{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/leaflet.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<h1 class="mb-4">Carte des trajectoires</h1>
+
+<div class="row g-4">
+
+    <!-- COLONNE FILTRES -->
+    <div class="col-lg-3">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h2 class="h5 mb-3">Filtres</h2>
+                <form method="get" class="row g-3">
+
+    <div class="col-md-6">
+        <label for="bird_name" class="form-label">Nom de l'oiseau</label>
+        <select id="bird_name" name="bird_name" class="form-select">
+            <option value="">Tous</option>
+            <!-- Options remplies dynamiquement par JavaScript -->
+        </select>
+    </div>
+
+    <div class="col-md-6">
+        <label for="date" class="form-label">Date</label>
+        <input type="date" id="date" name="date" class="form-control">
+    </div>
+
+    <div class="col-12">
+        <button type="button" id="btn-rechercher" class="btn btn-search">
+            Rechercher
+        </button>
+    </div>
+    
+</form>
+            </div>
+        </div>
+    </div>
+
+    <!-- COLONNE CARTE -->
+    <div class="col-lg-9">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h5 mb-3">Carte interactive des trajectoires d'oiseaux</h2>
+                <!-- Conteneur de la carte -->
+                <div id="map" style="height: 600px; width: 100%; border-radius: 8px;"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Import Leaflet JS -->
+<script src="{{ url_for('static', filename='js/leaflet.js') }}"></script>
+<script>
+    L.Icon.Default.imagePath = '/static/img/leaflet/';
+
+    // Palette de couleurs
+    const couleurs = [
+        '#e41a1c', '#377eb8', '#4daf4a', '#984ea3',
+        '#ff7f00', '#a65628', '#f781bf', '#999999'
+    ];
+    const couleursOiseaux = {};
+    let compteur = 0;
+
+    // Initialisation de la carte
+    const map = L.map('map').setView([46.5, 2.5], 5);
+
+    // Fond de carte Stadia
+    L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.{ext}?api_key=b94835d3-8f22-4194-ac81-e8601fe34b24', {
+        minZoom: 0,
+        maxZoom: 20,
+        attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        ext: 'png'
+    }).addTo(map);
+
+    // Stockage des données et des couches
+    let toutesLesDonnees = null;
+    let couchesActives = [];
+
+    // Remplir le select avec les vrais noms d'oiseaux
+    function remplirFiltres(data) {
+        const noms = [...new Set(data.features.map(f => f.properties.nom))].sort();
+        const select = document.getElementById('bird_name');
+        noms.forEach(function(nom) {
+            const option = document.createElement('option');
+            option.value = nom;
+            option.textContent = nom;
+            select.appendChild(option);
+        });
+    }
+
+    // fonction pour générer des PopUp
+    function genererPopUp(feature, layer) {
+        layer.on({
+            'click': function(e) {
+                this.openPopup();
+            }
+        });
+
+        const popupContent = `
+            <div style="width: 220px;">
+                <h3 style="text-align: center;
+                            background-color: #4CAF50;
+                            color: white;
+                            padding: 5px;
+                            border-radius: 4px 4px 0 0;
+                            margin: 0;">
+                    🦅 ${feature.properties.nom}
+                </h3>
+                <table style="width: 100%;
+                              border-collapse: collapse;
+                              font-size: 13px;">
+                    <tr style="background-color: #f9f9f9;">
+                        <td style="padding: 6px;
+                                   font-weight: bold;
+                                   border-bottom: 1px solid #ddd;">
+                            📅 Date
+                        </td>
+                        <td style="padding: 6px;
+                                   border-bottom: 1px solid #ddd;">
+                            ${feature.properties.timestamp.split(' ')[0]}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px;
+                                   font-weight: bold;
+                                   border-bottom: 1px solid #ddd;">
+                            🕐 Heure
+                        </td>
+                        <td style="padding: 6px;
+                                   border-bottom: 1px solid #ddd;">
+                            ${feature.properties.timestamp.split(' ')[1].split('.')[0]}
+                        </td>
+                    </tr>
+                    <tr style="background-color: #f9f9f9;">
+                        <td style="padding: 6px;
+                                   font-weight: bold;">
+                            📍 Coordonnées
+                        </td>
+                        <td style="padding: 6px;">
+                            ${feature.geometry.coordinates[1].toFixed(4)},
+                            ${feature.geometry.coordinates[0].toFixed(4)}
+                        </td>
+                    </tr>
+                </table>
+            </div>`;
+
+        layer.bindPopup(popupContent);
+    }
+   
+
+    // Afficher les données filtrées sur la carte
+    function afficherDonnees(data) {
+        couchesActives.forEach(c => map.removeLayer(c));
+        couchesActives = [];
+
+        const pointsParOiseau = {};
+        data.features.forEach(function(feature) {
+            const nom = feature.properties.nom;
+            if (!pointsParOiseau[nom]) {
+                pointsParOiseau[nom] = [];
+            }
+            pointsParOiseau[nom].push(feature);
+        });
+
+        Object.keys(pointsParOiseau).forEach(function(nom) {
+            if (!couleursOiseaux[nom]) {
+                couleursOiseaux[nom] = couleurs[compteur % couleurs.length];
+                compteur++;
+            }
+            const couleur = couleursOiseaux[nom];
+            const features = pointsParOiseau[nom];
+
+            // Ligne
+            const coordonnees = features.map(f => [
+                f.geometry.coordinates[1],
+                f.geometry.coordinates[0]
+            ]);
+            const ligne = L.polyline(coordonnees, {
+                color: couleur,
+                weight: 2,
+                opacity: 0.7
+            }).addTo(map);
+            couchesActives.push(ligne);
+
+            
+            features.forEach(function(feature) {
+                const latlng = [
+                    feature.geometry.coordinates[1],
+                    feature.geometry.coordinates[0]
+                ];
+                const marker = L.circleMarker(latlng, {
+                    color: couleur,
+                    radius: 4,
+                    fillOpacity: 0.8
+                });
+                genererPopUp(feature, marker);
+                marker.addTo(map);
+                couchesActives.push(marker);
+            });
+            
+        });
+    }
+
+    // Appliquer les filtres
+    function appliquerFiltres() {
+        const nomSelectionne = document.getElementById('bird_name').value;
+        const dateSelectionnee = document.getElementById('date').value;
+
+        let featuresFiltrees = toutesLesDonnees.features.filter(function(feature) {
+            if (nomSelectionne && feature.properties.nom !== nomSelectionne) {
+                return false;
+            }
+            if (dateSelectionnee) {
+                const dateFeature = feature.properties.timestamp.split(' ')[0];
+                if (dateFeature !== dateSelectionnee) {
+                    return false;
+                }
+            }
+            return true;
+        });
+
+        afficherDonnees({ type: "FeatureCollection", features: featuresFiltrees });
+    }
+
+    // Chargement initial des données
+    async function recupererDonnees() {
+        toutesLesDonnees = await (await fetch("/static/data/data_js.json")).json();
+        remplirFiltres(toutesLesDonnees);
+        afficherDonnees(toutesLesDonnees);
+    }
+
+    // Écouter le bouton Rechercher
+    document.getElementById('btn-rechercher').addEventListener('click', appliquerFiltres);
+
+    // Lancer le chargement
+    recupererDonnees();
+</script>
+
+
+
+{% endblock %}

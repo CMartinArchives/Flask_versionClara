@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Profil{% endblock %}
+
+{% block content %}
+
+<section class="bg-white rounded shadow-sm p-4 mb-4">
+
+    <h1 class="mb-2">Mon profil</h1>
+
+    <p class="text-muted mb-4">
+        Cette page regroupe les informations du compte utilisateur
+        ainsi que les commentaires publiés dans l’application.
+    </p>
+
+    <div class="row g-4">
+
+        <div class="col-lg-6">
+
+            <div class="profile-box p-4 rounded h-100">
+
+                <h2 class="h5 mb-3">Informations personnelles</h2>
+
+                <p>
+                    <strong>Identifiant :</strong> {{ current_user.username }}
+                </p>
+
+                <p>
+                    <strong>Adresse mail :</strong> {{ current_user.email }}
+                </p>
+
+                {% if current_user.bio %}
+
+                    <h3 class="h6 mt-4 mb-2">Présentation</h3>
+
+                    <p class="mb-0">
+                        {{ current_user.bio }}
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <div class="col-lg-6">
+
+            <div class="profile-box p-4 rounded h-100">
+
+                <h2 class="h5 mb-3">Mes commentaires</h2>
+
+                {% if comments %}
+
+                    {% for comment in comments %}
+
+                        <div class="comment-item mb-3 pb-3 border-bottom">
+
+                            <p class="mb-1">
+
+                                <strong>
+                                    <a href="{{ url_for('bird_detail', falcon_id=comment.falcon.falcon_id) }}">
+                                        Fiche oiseau :
+                                        {{ comment.falcon.nickname if comment.falcon.nickname != "NONE" else comment.falcon.falcon_code }}
+                                    </a>
+                                </strong><br>
+
+                                <span class="text-muted">
+                                    {{ comment.created_at.strftime('%d/%m/%Y à %H:%M') }}
+                                </span>
+
+                            </p>
+
+                            <p class="mb-0">
+                                {{ comment.content }}
+                            </p>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <p class="text-muted">
+                        Vous n’avez pas encore publié de commentaires.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

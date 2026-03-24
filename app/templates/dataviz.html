@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+
+{% block title %}Datavisualisations{% endblock %}
+
+{% block content %}
+
+<section class="dataviz-hero bg-white rounded shadow-sm p-5 mb-4">
+    <div class="row align-items-center g-4">
+        <div class="col-lg-8">
+            <h1 class="display-6 fw-bold mb-3">Datavisualisations</h1>
+            <p class="lead mb-3">
+                Lire la migration des faucons crécerelles à travers les données.
+            </p>
+            <p class="mb-0">
+                Cette page rassemble trois visualisations réalisées sur Tableau à partir
+                des données du projet. Elles permettent d’explorer les relations entre
+                température, intensité des détections et répartition spatiale des passages
+                observés en Espagne.
+            </p>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="dataviz-side-note p-4 rounded">
+                <h2 class="h5 mb-3">Ce que montre cette page</h2>
+                <ul class="mb-0">
+                    <li>un nuage de points</li>
+                    <li>une heatmap</li>
+                    <li>une cartographie des passages</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="viz-card bg-white rounded shadow-sm p-4 mb-5">
+    <div class="viz-header mb-4">
+        <h2 class="h4 mb-2">1. Influence de la température sur l’intensité des détections</h2>
+        <p class="text-muted mb-0">
+            Nuage de points croisant température moyenne mensuelle et nombre de détections.
+        </p>
+    </div>
+
+    <p class="mb-4">
+        Cette première visualisation met en relation la température moyenne mensuelle
+        et le nombre de détections enregistrées. Elle permet d’examiner l’existence
+        éventuelle d’une corrélation entre conditions climatiques et intensité des passages
+        migratoires, tout en faisant apparaître des écarts selon les provinces.
+    </p>
+
+    <div class="tableauPlaceholder viz-frame" id="viz1773329126074" style="position: relative;">
+        <noscript>
+            <a href="#">
+                <img alt="" src="https://public.tableau.com/static/images/Li/Livrablen4DatavisualisationsgroupeMigrationanimale/Sheet1/1_rss.png" style="border:none" />
+            </a>
+        </noscript>
+
+        <object class="tableauViz" style="display:none;">
+            <param name="host_url" value="https://public.tableau.com/" />
+            <param name="embed_code_version" value="3" />
+            <param name="site_root" value="" />
+            <param name="name" value="Livrablen4DatavisualisationsgroupeMigrationanimale/Sheet1" />
+            <param name="tabs" value="no" />
+            <param name="toolbar" value="yes" />
+        </object>
+    </div>
+
+    <script type="text/javascript">
+        var divElement = document.getElementById('viz1773329126074');
+        var vizElement = divElement.getElementsByTagName('object')[0];
+        vizElement.style.width = '100%';
+        vizElement.style.height = '800px';
+
+        var scriptElement = document.createElement('script');
+        scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+        vizElement.parentNode.insertBefore(scriptElement, vizElement);
+    </script>
+
+    <div class="analysis-box mt-4 p-4 rounded">
+        <h3 class="h5 mb-3">Analyse</h3>
+
+        <p>
+            Le nuage de points suggère une tendance générale à l’augmentation du nombre
+            de détections lorsque la température moyenne mensuelle augmente, même si cette
+            relation n’est pas parfaitement linéaire. Certaines valeurs se situent très au-dessus
+            du reste du nuage, ce qui indique des mois ou des zones de passage particulièrement actifs.
+        </p>
+
+        <p>
+            La répartition par couleur met également en évidence des différences territoriales :
+            certaines provinces semblent concentrer davantage de détections, tandis que d’autres
+            présentent des volumes plus faibles ou plus irréguliers. Cela peut s’expliquer
+            par des facteurs multiples : importance de l’axe migratoire local, effet de concentration
+            des oiseaux sur certains points de passage, ou encore différences de contexte
+            environnemental entre provinces.
+        </p>
+
+        <p class="mb-0">
+            Cette visualisation est donc utile pour formuler une hypothèse de travail :
+            les détections ne dépendent pas uniquement de la présence des oiseaux, mais peuvent aussi
+            être influencées par des variables climatiques et spatiales. Elle ouvre ainsi
+            la voie à une interprétation plus fine des conditions favorables au passage migratoire.
+        </p>
+    </div>
+</section>
+
+
+<section class="viz-card bg-white rounded shadow-sm p-4 mb-5">
+    <div class="viz-header mb-4">
+        <h2 class="h4 mb-2">2. Distribution spatiale des détections</h2>
+        <p class="text-muted mb-0">
+            Heatmap des zones où les détections sont les plus concentrées.
+        </p>
+    </div>
+
+    <p class="mb-4">
+        Cette heatmap propose une lecture synthétique de la densité des détections.
+        Elle permet d’identifier rapidement les zones de concentration des passages
+        et de mettre en évidence les régions les plus marquées par l’activité migratoire.
+    </p>
+
+    <div class="tableauPlaceholder viz-frame" id="viz1773329166828" style="position: relative;">
+        <noscript>
+            <a href="#">
+                <img alt="" src="https://public.tableau.com/static/images/Li/Livrablen4DatavisualisationsgroupeMigrationanimale/Sheet2/1_rss.png" style="border:none" />
+            </a>
+        </noscript>
+
+        <object class="tableauViz" style="display:none;">
+            <param name="host_url" value="https://public.tableau.com/" />
+            <param name="embed_code_version" value="3" />
+            <param name="site_root" value="" />
+            <param name="name" value="Livrablen4DatavisualisationsgroupeMigrationanimale/Sheet2" />
+            <param name="tabs" value="no" />
+            <param name="toolbar" value="yes" />
+        </object>
+    </div>
+
+    <script type="text/javascript">
+        var divElement = document.getElementById('viz1773329166828');
+        var vizElement = divElement.getElementsByTagName('object')[0];
+        vizElement.style.width = '100%';
+        vizElement.style.height = '800px';
+
+        var scriptElement = document.createElement('script');
+        scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+        vizElement.parentNode.insertBefore(scriptElement, vizElement);
+    </script>
+
+    <div class="analysis-box mt-4 p-4 rounded">
+        <h3 class="h5 mb-3">Analyse</h3>
+
+        <p>
+            La heatmap met l’accent non plus sur les valeurs individuelles, mais sur
+            la concentration des observations dans l’espace. Elle permet de visualiser
+            les zones où les détections s’accumulent, et donc les secteurs qui semblent
+            jouer un rôle plus important dans les trajectoires migratoires des oiseaux suivis.
+        </p>
+
+        <p>
+            Ce type de représentation est particulièrement utile pour faire apparaître
+            des “points chauds” migratoires, autrement dit des espaces où les passages
+            sont plus fréquents ou plus denses. Ces concentrations peuvent correspondre
+            à des couloirs de migration, à des zones de halte, ou à des secteurs
+            particulièrement favorables du point de vue écologique.
+        </p>
+
+        <p class="mb-0">
+            La heatmap complète ainsi la lecture offerte par le nuage de points :
+            là où la première visualisation explore les relations entre variables,
+            celle-ci met en évidence la géographie des détections et la hiérarchie spatiale
+            des zones de passage.
+        </p>
+    </div>
+</section>
+
+
+<section class="viz-card bg-white rounded shadow-sm p-4 mb-4">
+    <div class="viz-header mb-4">
+        <h2 class="h4 mb-2">3. Cartographie des passages migratoires</h2>
+        <p class="text-muted mb-0">
+            Carte des lieux où les faucons crécerelles ont été détectés.
+        </p>
+    </div>
+
+    <p class="mb-4">
+        Cette carte localise les détections de faucons crécerelles sur le territoire espagnol.
+        Elle permet de visualiser directement l’inscription spatiale de la migration,
+        d’identifier les lieux traversés et de mieux comprendre la structuration générale
+        des itinéraires empruntés.
+    </p>
+
+    <div class="tableauPlaceholder viz-frame" id="viz1773329188623" style="position: relative;">
+        <noscript>
+            <a href="#">
+                <img alt="" src="https://public.tableau.com/static/images/Li/Livrablen4DatavisualisationsgroupeMigrationanimale/Sheet3/1_rss.png" style="border:none" />
+            </a>
+        </noscript>
+
+        <object class="tableauViz" style="display:none;">
+            <param name="host_url" value="https://public.tableau.com/" />
+            <param name="embed_code_version" value="3" />
+            <param name="site_root" value="" />
+            <param name="name" value="Livrablen4DatavisualisationsgroupeMigrationanimale/Sheet3" />
+            <param name="tabs" value="no" />
+            <param name="toolbar" value="yes" />
+        </object>
+    </div>
+
+    <script type="text/javascript">
+        var divElement = document.getElementById('viz1773329188623');
+        var vizElement = divElement.getElementsByTagName('object')[0];
+        vizElement.style.width = '100%';
+        vizElement.style.height = '800px';
+
+        var scriptElement = document.createElement('script');
+        scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+        vizElement.parentNode.insertBefore(scriptElement, vizElement);
+    </script>
+
+    <div class="analysis-box mt-4 p-4 rounded">
+        <h3 class="h5 mb-3">Analyse</h3>
+
+        <p>
+            La carte permet d’observer la répartition concrète des points de détection
+            et de replacer les trajectoires dans un espace géographique identifiable.
+            Là où les autres visualisations synthétisent les données, la carte redonne
+            une lecture plus intuitive des parcours suivis.
+        </p>
+
+        <p>
+            Elle permet notamment de repérer les principaux axes de passage, les régions
+            traversées de manière récurrente et les éventuelles zones de concentration.
+            Elle aide aussi à comprendre comment les données GPS peuvent être rapprochées
+            d’informations territoriales, comme les provinces, les villes ou les espaces naturels.
+        </p>
+
+        <p class="mb-0">
+            Dans l’économie générale du projet, cette visualisation joue un rôle central :
+            elle montre concrètement ce que signifie “suivre une migration”, en transformant
+            une suite de coordonnées en un espace parcouru, lisible et interprétable.
+        </p>
+    </div>
+</section>
+
+{% endblock %}

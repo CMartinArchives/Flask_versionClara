@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Recherche{% endblock %}
+
+{% block content %}
+
+<h1 class="mb-4">Recherche</h1>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+
+        {% include 'partials/search_form.html' %}
+
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+
+        <h2 class="h5 mb-3">Résultats</h2>
+
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Oiseau</th>
+                        <th>Date</th>
+                        <th>Lieu</th>
+                        <th>Altitude</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <!-- les résultats seront générés par Flask plus tard -->
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

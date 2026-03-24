@@ -1,0 +1,373 @@
+{% extends "base.html" %}
+
+{% block title %}Méthodologie{% endblock %}
+
+{% block content %}
+
+<section class="bg-white rounded shadow-sm p-5 mb-4">
+    <div class="row g-4 align-items-center">
+        <div class="col-lg-8">
+            <h1 class="display-6 fw-bold mb-3">Méthodologie</h1>
+            <p class="lead mb-3">
+                Cette page présente la logique de construction des données exploitées dans l’application
+                <strong>Voie de Crécerelle</strong>, depuis la collecte des jeux de données bruts jusqu’à leur
+                transformation en base relationnelle interrogeable par le web.
+            </p>
+            <p class="mb-0">
+                Le projet repose sur un croisement entre données animalières, météorologiques et géographiques
+                afin de mieux comprendre les trajectoires migratoires de faucons crécerelles observés en Espagne.
+            </p>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="method-highlight p-4 rounded">
+                <h2 class="h5 mb-3">En bref</h2>
+                <ul class="mb-0">
+                    <li>Suivi GPS d’oiseaux migrateurs</li>
+                    <li>Données météo espagnoles</li>
+                    <li>Enrichissement géographique</li>
+                    <li>Base relationnelle nettoyée</li>
+                    <li>Exploration cartographique et recherche</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="bg-white rounded shadow-sm p-4 mb-4">
+    <h2 class="h3 mb-3">1. Contexte scientifique et objectif du projet</h2>
+
+    <p>
+        Le projet <strong>Voie de Crécerelle</strong> s’intéresse aux migrations du faucon crécerelle
+        (<em>Falco tinnunculus</em>), un rapace largement présent en Eurasie et en Afrique.
+        Si une partie des individus est sédentaire, les populations situées plus au nord migrent
+        à la fin de l’été vers des zones plus chaudes.
+    </p>
+
+    <p>
+        L’objectif du projet est de mettre en valeur les dynamiques de migration d’un groupe d’individus
+        suivis par balises GPS, en croisant plusieurs types de données :
+        <strong>données animalières</strong>, <strong>données météorologiques</strong> et
+        <strong>données géographiques</strong>.
+    </p>
+
+    <p class="mb-0">
+        L’application web a été conçue comme une interface de consultation et de visualisation :
+        elle ne remplace pas le travail de traitement, mais en constitue l’aboutissement visible,
+        en rendant la base de données lisible et exploitable pour l’utilisateur.
+    </p>
+</section>
+
+
+<section class="bg-white rounded shadow-sm p-4 mb-4">
+    <h2 class="h3 mb-4">2. Périmètre d’étude</h2>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="method-card h-100 p-4 rounded">
+                <h3 class="h5 mb-3">Le groupe étudié</h3>
+                <p class="mb-0">
+                    Le corpus étudié regroupe une trentaine de faucons crécerelles en migration
+                    entre l’Espagne et le Sahel occidental, suivis depuis 2021.
+                    Pour rendre l’analyse exploitable dans l’application, le projet a retenu
+                    les oiseaux les mieux documentés.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="method-card h-100 p-4 rounded">
+                <h3 class="h5 mb-3">Le choix de l’Espagne</h3>
+                <p class="mb-0">
+                    Même si les trajets couvrent un espace migratoire plus vaste,
+                    les analyses géographiques et météorologiques ont été recentrées sur
+                    la zone espagnole de migration, afin de conserver un périmètre cohérent,
+                    documenté et techniquement maîtrisable pour l’application Flask.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="bg-white rounded shadow-sm p-4 mb-4">
+    <h2 class="h3 mb-4">3. Origine des jeux de données</h2>
+
+    <div class="row g-4">
+        <div class="col-lg-4">
+            <div class="data-source-box h-100 p-4 rounded">
+                <h3 class="h4 mb-3">
+                    <a href="https://www.movebank.org/cms/movebank-main"
+                       target="_blank"
+                       rel="noopener"
+                       class="source-link">
+                        Movebank
+                    </a>
+                </h3>
+                <p>
+                    Le jeu de données principal provient de la plateforme Movebank du
+                    Max Planck Institute of Animal Behavior.
+                </p>
+                <p>
+                    Il recense les enregistrements des balises de 34 oiseaux suivis
+                    dans le cadre du projet MERCURIO-SUMHAL entre l’hiver 2021 et 2023,
+                    notamment dans le parc de Doñana et à La Palma del Condado.
+                </p>
+                <p class="mb-0">
+                    On y retrouve des informations sur l’identité de l’oiseau,
+                    l’identifiant du tag, la date et l’heure de détection,
+                    la latitude, la longitude, la température, l’altitude,
+                    la vitesse ou encore le niveau de lumière.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="data-source-box h-100 p-4 rounded">
+                <h3 class="h4 mb-3">
+                    <a href="https://www.aemet.es/es/datos_abiertos/AEMET_OpenData"
+                       target="_blank"
+                       rel="noopener"
+                       class="source-link">
+                        AEMET
+                    </a>
+                </h3>
+                <p>
+                    Le second jeu de données provient de l’agence météorologique espagnole AEMET,
+                    via son API OpenData.
+                </p>
+                <p>
+                    Les données, récupérées sous forme de fichiers JSON puis converties en CSV,
+                    correspondent à des relevés journaliers de stations espagnoles choisies en fonction
+                    du trajet des faucons.
+                </p>
+                <p class="mb-0">
+                    Elles contiennent notamment des mesures de température minimale, moyenne et maximale,
+                    d’humidité, de précipitations, de vitesse moyenne du vent, de rafales maximales
+                    et, pour certaines stations, des données de pression ou d’ensoleillement.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="data-source-box h-100 p-4 rounded">
+                <h3 class="h4 mb-3">
+                    <a href="https://www.wikidata.org/wiki/Wikidata:Main_Page"
+                       target="_blank"
+                       rel="noopener"
+                       class="source-link">
+                        Wikidata
+                    </a>
+                </h3>
+                <p>
+                    Le troisième ensemble de données provient de Wikidata et sert à enrichir
+                    les lieux traversés par les oiseaux.
+                </p>
+                <p>
+                    Il permet de compléter la base avec des informations géographiques
+                    sur des villes et des espaces traversés : coordonnées, altitude,
+                    population, superficie, province ou communauté autonome.
+                </p>
+                <p class="mb-0">
+                    Cet enrichissement rend possible une lecture plus territoriale des trajectoires,
+                    en reliant les détections à des lieux identifiables.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="bg-white rounded shadow-sm p-4 mb-4">
+    <h2 class="h3 mb-4">4. Construction de la base relationnelle</h2>
+
+    <p>
+        Pour alimenter l’application web, les jeux de données bruts n’ont pas été utilisés tels quels.
+        Ils ont été intégrés dans une base de données relationnelle, créée par un ensemble de scripts SQL
+        orchestrés par une application Python.
+    </p>
+
+    <p class="mb-4">
+        Ce pipeline de transformation est structuré en cinq grandes étapes, qui permettent de passer
+        d’un ensemble hétérogène de fichiers à une base propre, cohérente et performante pour
+        la consultation web.
+    </p>
+
+    <div class="pipeline-step mb-4">
+        <h3 class="h5 mb-3">Étape 1 — Staging et nettoyage</h3>
+
+        <p>
+            La première phase consiste à charger les données brutes dans des tables de travail
+            puis à les normaliser. Il s’agit d’une étape essentielle, car les trois sources
+            n’emploient pas les mêmes formats ni les mêmes conventions d’écriture.
+        </p>
+
+        <ul>
+            <li>nettoyage des labels : espaces, accents, normalisation des chaînes ;</li>
+            <li>harmonisation des types de données ;</li>
+            <li>fusion de sources géographiques ;</li>
+            <li>sélection des 30 oiseaux les mieux documentés ;</li>
+            <li>réduction du volume des données GPS par downsampling ;</li>
+            <li>fusion et préparation des stations météo.</li>
+        </ul>
+
+        <p>
+            Pour les positions GPS, un travail quantitatif a été réalisé afin de conserver
+            une trajectoire lisible sans alourdir excessivement la base.
+            Le projet a ainsi retenu <strong>un point GPS toutes les 10 minutes et par individu</strong>.
+        </p>
+
+        <p class="mb-0">
+            Ce choix permet de réduire le volume tout en préservant la continuité de la trajectoire,
+            ce qui est particulièrement important pour l’affichage sur carte.
+        </p>
+    </div>
+
+    <div class="pipeline-step mb-4">
+        <h3 class="h5 mb-3">Étape 2 — Création des tables finales</h3>
+
+        <p>
+            Une fois les données nettoyées, elles sont insérées dans les tables métiers définitives.
+            Cette étape consiste à construire la structure durable de la base.
+        </p>
+
+        <ul class="mb-0">
+            <li>création des tables finales ;</li>
+            <li>mise en place des clés primaires ;</li>
+            <li>création des clés étrangères ;</li>
+            <li>insertion des données nettoyées dans les tables relationnelles.</li>
+        </ul>
+    </div>
+
+    <div class="pipeline-step mb-4">
+        <h3 class="h5 mb-3">Étape 3 — Enrichissement des relations</h3>
+
+        <p>
+            Après la mise en place des tables finales, le projet procède à un enrichissement
+            relationnel et spatial de la base.
+        </p>
+
+        <ul>
+            <li>extraction de latitude et longitude depuis des coordonnées textuelles ;</li>
+            <li>rattachement des stations météo aux lieux ;</li>
+            <li>rattachement spatial des détections au lieu le plus proche ;</li>
+            <li>optimisation des traitements par bounding box afin de limiter le temps d’exécution.</li>
+        </ul>
+
+        <p class="mb-0">
+            Cette étape est centrale, car elle transforme une simple collection de points
+            en un ensemble de relations exploitables entre oiseaux, lieux traversés
+            et conditions météorologiques.
+        </p>
+    </div>
+
+    <div class="pipeline-step mb-4">
+        <h3 class="h5 mb-3">Étape 4 — Vues analytiques</h3>
+
+        <p>
+            La base n’est pas seulement pensée pour stocker les données :
+            elle sert aussi à produire des vues déjà préparées pour l’analyse
+            et la visualisation.
+        </p>
+
+        <p>Des datasets ont notamment été produits pour :</p>
+
+        <ul>
+            <li>les passages par région et par année ;</li>
+            <li>les relations entre migration et météo ;</li>
+            <li>les points GPS destinés à la cartographie.</li>
+        </ul>
+
+        <p class="mb-0">
+            Ces vues constituent une passerelle entre la base relationnelle,
+            les datavisualisations et l’application web.
+        </p>
+    </div>
+
+    <div class="pipeline-step">
+        <h3 class="h5 mb-3">Étape 5 — Nettoyage final</h3>
+
+        <p>
+            Une fois les traitements réalisés, les tables temporaires et les tables brutes
+            ne sont plus nécessaires au fonctionnement de l’application.
+        </p>
+
+        <p class="mb-0">
+            Le nettoyage final consiste donc à ne conserver que les tables définitives
+            et les vues utiles, ce qui allège la base et clarifie son usage côté application.
+        </p>
+    </div>
+</section>
+
+
+<section class="bg-white rounded shadow-sm p-4 mb-4">
+    <h2 class="h3 mb-4">10. Choix techniques pour l’application web</h2>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="method-card h-100 p-4 rounded">
+                <h3 class="h5 mb-3">Une base pensée pour Flask</h3>
+                <p class="mb-0">
+                    La base n’a pas été conçue comme une simple archive de données,
+                    mais comme un support adapté à une application web :
+                    requêtes ciblées, affichage cartographique, recherche multicritère,
+                    consultation de fiches et intégration progressive de fonctionnalités utilisateurs.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="method-card h-100 p-4 rounded">
+                <h3 class="h5 mb-3">Lisibilité et performance</h3>
+                <p class="mb-0">
+                    Les choix de filtrage, de réduction du volume, d’enrichissement relationnel
+                    et de pré-calcul de certaines vues répondent à un objectif simple :
+                    proposer une interface fluide, lisible et cohérente, malgré la complexité
+                    des données initiales.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="bg-white rounded shadow-sm p-4 mb-4">
+    <h2 class="h3 mb-4">11. Du jeu de données brut à l’expérience utilisateur</h2>
+
+    <p>
+        Le travail méthodologique ne se limite pas au traitement informatique.
+        Il conditionne directement l’expérience de navigation dans l’application.
+    </p>
+
+    <ul>
+        <li>la carte repose sur les coordonnées GPS nettoyées et réduites ;</li>
+        <li>la recherche repose sur une structuration cohérente des champs ;</li>
+        <li>les fiches oiseaux reposent sur les relations entre identifiants, lieux et détections ;</li>
+        <li>les futurs croisements météo/migration reposent sur l’enrichissement par station et par lieu.</li>
+    </ul>
+
+    <p class="mb-0">
+        En ce sens, la méthodologie n’est pas une étape séparée du site :
+        elle constitue le socle qui rend l’application intelligible et utile.
+    </p>
+</section>
+
+
+<section class="bg-white rounded shadow-sm p-4">
+    <h2 class="h3 mb-3">12. Conclusion</h2>
+
+    <p>
+        La méthodologie de <strong>Voie de Crécerelle</strong> repose sur une chaîne de traitement complète :
+        sélection des sources, nettoyage, normalisation, structuration relationnelle,
+        enrichissement spatial et préparation de jeux de données orientés visualisation.
+    </p>
+
+    <p class="mb-0">
+        L’application web n’est donc pas seulement une interface graphique :
+        elle est l’aboutissement d’un travail de modélisation et de transformation des données,
+        pensé pour rendre accessibles des phénomènes migratoires complexes.
+    </p>
+</section>
+
+{% endblock %}

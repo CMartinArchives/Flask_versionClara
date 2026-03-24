@@ -1,0 +1,293 @@
+/* =========================
+   BASE
+========================= */
+
+body {
+    background-color: #f7f5ef;
+    color: #243447;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+.custom-navbar {
+    background-color: #243447;
+}
+
+.navbar-brand,
+.nav-link {
+    color: white !important;
+}
+
+.nav-link:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn-explore {
+    background-color: #d98c3b;
+    border-color: #d98c3b;
+    color: white;
+}
+
+.btn-explore:hover {
+    background-color: #c67d31;
+    border-color: #c67d31;
+    color: white;
+}
+
+.btn-search {
+    background-color: #6b8f71;
+    border-color: #6b8f71;
+    color: white;
+}
+
+.btn-search:hover {
+    background-color: #5d7d63;
+    border-color: #5d7d63;
+    color: white;
+}
+
+
+/* =========================
+   CARDS
+========================= */
+
+.card {
+    border: none;
+    border-radius: 12px;
+}
+
+
+/* =========================
+   MAP
+========================= */
+
+.map-placeholder {
+    height: 500px;
+    background-color: #eef1f4;
+    border: 2px dashed #c9ced4;
+    border-radius: 12px;
+}
+
+.map-mini-placeholder {
+    height: 220px;
+    background-color: #eef1f4;
+    border: 2px dashed #c9ced4;
+    border-radius: 12px;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.site-footer {
+    font-size: 0.9rem;
+    color: #5a6775;
+}
+
+.footer-logo {
+    max-height: 55px;
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+}
+
+.footer-logo:hover {
+    opacity: 1;
+}
+
+.footer-project {
+    color: #243447;
+}
+
+.footer-master {
+    color: #243447;
+}
+
+.footer-school {
+    color: #6b8f71;
+}
+
+.footer-authors {
+    color: #243447;
+}
+
+.footer-copy {
+    color: #6b7280;
+}
+
+.footer-legal {
+    font-size: 0.85rem;
+    color: #6b8f71;
+}
+
+.footer-legal:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================
+   HOME PAGE
+========================= */
+
+.hero-section {
+    background: linear-gradient(135deg, #ffffff 0%, #f7f5ef 100%);
+}
+
+.hero-side-box {
+    background-color: #eef1f4;
+    border-left: 5px solid #d98c3b;
+}
+
+.feature-tile {
+    background-color: #eef1f4;
+}
+
+.feature-tile h3,
+.data-source-box h3,
+.hero-side-box h2 {
+    color: #243447;
+}
+
+.feature-link {
+    display: block;
+    color: inherit;
+}
+
+.feature-link:hover .feature-tile {
+    transform: translateY(-3px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08);
+    transition: 0.2s ease;
+}
+
+
+/* =========================
+   DATA SOURCE BOX
+========================= */
+
+.data-source-box {
+    background-color: #f7f5ef;
+    border: 1px solid #e7e1d7;
+}
+
+
+/* =========================
+   METHODOLOGY
+========================= */
+
+.method-highlight {
+    background-color: #eef1f4;
+    border-left: 5px solid #d98c3b;
+}
+
+.method-card {
+    background-color: #f7f5ef;
+    border: 1px solid #e7e1d7;
+}
+
+.methodology-section-title {
+    color: #243447;
+}
+
+.pipeline-step {
+    padding: 1rem 1.25rem;
+    background-color: #f7f5ef;
+    border-left: 4px solid #6b8f71;
+    border-radius: 10px;
+}
+
+.pipeline-step h3 {
+    color: #243447;
+}
+
+.source-link {
+    color: #243447;
+    text-decoration: none;
+}
+
+.source-link:hover {
+    color: #6b8f71;
+    text-decoration: underline;
+}
+
+
+/* =========================
+   DATAVIZ
+========================= */
+
+.dataviz-hero {
+    background: linear-gradient(135deg, #ffffff 0%, #f7f5ef 100%);
+}
+
+.dataviz-side-note {
+    background-color: #eef1f4;
+    border-left: 5px solid #d98c3b;
+}
+
+.viz-card {
+    overflow: hidden;
+}
+
+.viz-header {
+    border-bottom: 1px solid #e6e6e6;
+    padding-bottom: 0.75rem;
+}
+
+.viz-frame {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.analysis-box {
+    background-color: #f7f5ef;
+    border-left: 4px solid #6b8f71;
+}
+
+.analysis-box h3 {
+    color: #243447;
+}
+
+
+/* =========================
+   DROPDOWN MENU
+========================= */
+
+.dropdown-menu {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item:hover {
+    background-color: #f7f5ef;
+    color: #243447;
+}
+
+
+/* =========================
+   PROFILE
+========================= */
+
+.profile-box {
+    background-color: #f7f5ef;
+    border: 1px solid #e7e1d7;
+    border-radius: 12px;
+}
+
+
+/* =========================
+   BIRDS
+========================= */
+
+.bird-card {
+    background-color: #f7f5ef;
+    border: 1px solid #e7e1d7;
+    border-radius: 12px;
+}

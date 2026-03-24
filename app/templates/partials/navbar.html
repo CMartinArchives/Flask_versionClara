@@ -1,0 +1,68 @@
+<nav class="navbar navbar-expand-lg navbar-dark custom-navbar">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">
+            Voie de Crécerelle
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarMain" aria-controls="navbarMain"
+                aria-expanded="false" aria-label="Ouvrir la navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarMain">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('index') }}">Accueil</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="explorerDropdown"
+                       role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Explorer
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="explorerDropdown">
+                        <li>
+                            <a class="dropdown-item" href="{{ url_for('map_page') }}">Carte</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ url_for('search') }}">Recherche</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ url_for('birds') }}">Fiches oiseaux</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ url_for('dataviz') }}">Datavisualisations</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('methodology') }}">Méthodologie</a>
+                </li>
+
+                {% if current_user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            {{ current_user.username }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('profile') }}">Profil</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('logout') }}">Déconnexion</a>
+                            </li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('login') }}">Connexion</a>
+                    </li>
+                {% endif %}
+
+            </ul>
+        </div>
+    </div>
+</nav>
