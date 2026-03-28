@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV /home/clara/2_CRECERELLE/Livrable-4---App-Flask/env
+set -gx VIRTUAL_ENV /home/vielmas/Desktop/M2_TNAH/Voie_crecerelle_project/Flask_versionClara/env
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/"bin $PATH

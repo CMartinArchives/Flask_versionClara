@@ -4,7 +4,9 @@ from ..models.falcon import Falcon
 from ..models.comment import Comment
 from ..models.users import User
 from ..app import app, db
-
+import csv
+import json
+import os
 
 @app.route("/")
 def index():
@@ -89,7 +91,7 @@ def logout():
     return redirect(url_for("index"))
 
 
-@app.route("/bird/<int:falcon_id>", methods=["GET", "POST"])
+@app.route("/bird/<string:falcon_id>", methods=["GET", "POST"])
 def bird_detail(falcon_id):
     falcon = Falcon.query.get_or_404(falcon_id)
 
@@ -167,9 +169,35 @@ def dataviz():
 
 @app.route("/birds")
 def birds():
-    birds_list = Falcon.query.order_by(Falcon.falcon_id.asc()).all()
-    return render_template("birds.html", birds=birds_list)
+    # couleur unique par oiseau comme sur la carte
+    couleurs = [
+        '#e41a1c', '#377eb8', '#4daf4a', '#984ea3',
+        '#ff7f00', '#a65628', '#f781bf', '#999999',
+        '#17becf', '#bcbd22', '#ff9896', '#aec7e8'
+    ]
+    # Charger les surnoms
+    surnoms_path = os.path.join(app.static_folder, 'data', 'surnoms.json')
+    with open(surnoms_path, 'r', encoding='utf-8') as f:
+        surnoms = json.load(f)
 
+    oiseaux = []
+    seen = set()
+
+    with open('donnees.csv', 'r', encoding='utf-8') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            identifiant = row['individual-local-identifier']
+            if identifiant not in seen:
+                seen.add(identifiant)
+                oiseaux.append({
+                    'falcon_id': identifiant,
+                    'falcon_code': identifiant,
+                    'nickname': surnoms.get(identifiant, 'NONE'),
+                    'tag_id': row.get('tag-local-identifier', None),
+                    'espece': row.get('individual-taxon-canonical-name', 'Non renseignée')
+                })
+
+    return render_template("birds.html", birds=oiseaux)
 
 @app.route("/legal")
 def legal():

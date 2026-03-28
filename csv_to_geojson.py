@@ -1,8 +1,12 @@
 import json
 import csv
 
+# Charger les surnoms
+with open('app/static/data/surnoms.json', 'r', encoding='utf-8') as f:
+    surnoms = json.load(f)
+
 donnees = []
-pas = 1000  # 1 point sur 1000 pour plus de lisibilité
+pas = 1000
 
 with open('donnees.csv', 'r', encoding='utf-8') as f:
     reader = csv.DictReader(f, delimiter=',')
@@ -16,6 +20,7 @@ donnees.sort(key=lambda x: x['timestamp'])
 
 features = []
 for row in donnees:
+    identifiant = row['individual-local-identifier']
     feature = {
         "type": "Feature",
         "geometry": {
@@ -26,7 +31,8 @@ for row in donnees:
             ]
         },
         "properties": {
-            "nom": row['individual-local-identifier'],
+            "nom": identifiant,
+            "surnom": surnoms.get(identifiant, identifiant),
             "timestamp": row['timestamp']
         }
     }

@@ -39,10 +39,10 @@ deactivate nondestructive
 if [ "${OSTYPE:-}" = "cygwin" ] || [ "${OSTYPE:-}" = "msys" ] ; then
     # transform D:\path\to\venv to /d/path/to/venv on MSYS
     # and to /cygdrive/d/path/to/venv on Cygwin
-    export VIRTUAL_ENV=$(cygpath /home/clara/2_CRECERELLE/Livrable-4---App-Flask/env)
+    export VIRTUAL_ENV=$(cygpath /home/vielmas/Desktop/M2_TNAH/Voie_crecerelle_project/Flask_versionClara/env)
 else
     # use the path as-is
-    export VIRTUAL_ENV=/home/clara/2_CRECERELLE/Livrable-4---App-Flask/env
+    export VIRTUAL_ENV=/home/vielmas/Desktop/M2_TNAH/Voie_crecerelle_project/Flask_versionClara/env
 fi
 
 _OLD_VIRTUAL_PATH="$PATH"
