@@ -16,44 +16,62 @@
 
         <div class="row g-4">
 
+            <!-- COLONNE INFOS -->
             <div class="col-lg-6">
-
                 <div class="bird-detail-box p-4 rounded h-100">
 
-                    <h2 class="h4 mb-3">
+                    <!-- Icône et nom -->
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <div style="
+                            width: 80px;
+                            height: 80px;
+                            border-radius: 50%;
+                            background-color: #4CAF50;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            margin: auto;
+                            font-size: 40px;
+                            box-shadow: 2px 2px 8px rgba(0,0,0,0.15);">
+                            🦅
+                        </div>
+                    </div>
+
+                    <h2 class="h4 mb-3" style="text-align: center;">
                         {{ bird.nickname if bird.nickname != "NONE" else bird.falcon_code }}
                     </h2>
 
-                    <p><strong>Identifiant balise :</strong> {{ bird.tag_id if bird.tag_id else "Non renseigné" }}</p>
-                    <p><strong>Code faucon :</strong> {{ bird.falcon_code }}</p>
-
-                    <!-- A FAIRE : afficher le "dernier passage" réel de l'oiseau.
-
-                        Cette information devra être calculée à partir de la base :
-                        - table bird_detection (timestamp des positions)
-                        - jointure avec place pour récupérer le lieu correspondant
-
-                        L'idée sera de récupérer la dernière détection (MAX(timestamp)) 
-                        pour ce falcon_id et d'afficher le lieu associé.
-
-                        Ce n'est pas encore implémenté côté Flask / SQLAlchemy. -->
-                    <p><strong>Dernier passage :</strong> VILLE</p>
+                    <p><strong>Espèce :</strong>
+                        <span class="text-primary">{{ bird.espece }}</span>
+                    </p>
+                    <p><strong>Identifiant balise :</strong>
+                        {{ bird.tag_id if bird.tag_id else "Non renseigné" }}
+                    </p>
+                    <p><strong>Code faucon :</strong>
+                        <span style="
+                            background-color: #4CAF50;
+                            color: white;
+                            padding: 2px 8px;
+                            border-radius: 12px;
+                            font-size: 12px;">
+                            {{ bird.falcon_code }}
+                        </span>
+                    </p>
+                    <p><strong>Dernier passage :</strong> Non renseigné</p>
 
                     <h3 class="h6 mt-4 mb-2">Description</h3>
-
                     <p class="mb-0">
                         Cet individu fait partie du suivi GPS réalisé dans le cadre du projet
                         de migration des faucons crécerelles. Les données associées permettent
-                        d’observer les trajectoires migratoires et les zones de passage les plus
+                        d'observer les trajectoires migratoires et les zones de passage les plus
                         fréquentes.
                     </p>
 
                 </div>
-
             </div>
 
+            <!-- COLONNE CARTE -->
             <div class="col-lg-6">
-
                 <div class="bird-detail-box p-4 rounded h-100">
 
                     <h2 class="h5 mb-3">Carte du passage</h2>
@@ -64,7 +82,6 @@
                     </p>
 
                 </div>
-
             </div>
 
         </div>
@@ -91,18 +108,13 @@
             {% for comment in comments %}
 
                 <div class="comment-item mb-3 pb-3 border-bottom">
-
                     <p class="mb-1">
                         <strong>{{ comment.author.username }}</strong>
                         <span class="text-muted">
                             — {{ comment.created_at.strftime('%d/%m/%Y à %H:%M') }}
                         </span>
                     </p>
-
-                    <p class="mb-0">
-                        {{ comment.content }}
-                    </p>
-
+                    <p class="mb-0">{{ comment.content }}</p>
                 </div>
 
             {% endfor %}
@@ -115,17 +127,13 @@
 
         {% endif %}
 
-
         <h3 class="h6 mt-4 mb-3">Ajouter un commentaire</h3>
 
         {% if current_user.is_authenticated %}
 
             <form method="post">
-
                 <div class="mb-3">
-
                     <label class="form-label">Ton commentaire</label>
-
                     <textarea
                         name="comment"
                         class="form-control"
@@ -133,27 +141,21 @@
                         placeholder="Écris ton commentaire ici..."
                         required
                     ></textarea>
-
                 </div>
-
                 <button class="btn btn-search">
                     Publier le commentaire
                 </button>
-
             </form>
 
         {% else %}
 
             <div class="alert alert-light border text-center">
-
                 <p class="mb-3 text-muted">
                     Connecte-toi pour laisser un commentaire.
                 </p>
-
                 <a href="{{ url_for('login') }}" class="btn btn-explore">
                     Se connecter
                 </a>
-
             </div>
 
         {% endif %}
@@ -161,7 +163,7 @@
     {% else %}
 
         <p class="text-muted mb-0">
-            Les commentaires seront disponibles lorsqu’un oiseau pourra être affiché.
+            Les commentaires seront disponibles lorsqu'un oiseau pourra être affiché.
         </p>
 
     {% endif %}
@@ -189,11 +191,15 @@
         }
     ).addTo(map);
 
+    // Fonction de génération du popup
     function genererPopUp(feature, layer) {
         const timestamp = feature.properties.timestamp || "";
         const morceaux = timestamp.split(" ");
         const date = morceaux[0] || "Non renseignée";
         const heure = morceaux[1] ? morceaux[1].split(".")[0] : "Non renseignée";
+
+        // Utiliser le surnom si disponible
+        const nomAffiche = feature.properties.surnom || feature.properties.nom || birdCode;
 
         const popupContent = `
             <div style="width: 220px;">
@@ -203,12 +209,23 @@
                            padding: 5px;
                            border-radius: 4px 4px 0 0;
                            margin: 0;">
-                    🦅 ${feature.properties.nom || birdCode}
+                    🦅 ${nomAffiche}
                 </h3>
                 <table style="width: 100%;
                               border-collapse: collapse;
                               font-size: 13px;">
                     <tr style="background-color: #f9f9f9;">
+                        <td style="padding: 6px;
+                                   font-weight: bold;
+                                   border-bottom: 1px solid #ddd;">
+                            🏷️ Code
+                        </td>
+                        <td style="padding: 6px;
+                                   border-bottom: 1px solid #ddd;">
+                            ${feature.properties.nom || birdCode}
+                        </td>
+                    </tr>
+                    <tr>
                         <td style="padding: 6px;
                                    font-weight: bold;
                                    border-bottom: 1px solid #ddd;">
@@ -219,7 +236,7 @@
                             ${date}
                         </td>
                     </tr>
-                    <tr>
+                    <tr style="background-color: #f9f9f9;">
                         <td style="padding: 6px;
                                    font-weight: bold;
                                    border-bottom: 1px solid #ddd;">
@@ -230,7 +247,7 @@
                             ${heure}
                         </td>
                     </tr>
-                    <tr style="background-color: #f9f9f9;">
+                    <tr>
                         <td style="padding: 6px;
                                    font-weight: bold;">
                             📍 Coordonnées
@@ -247,10 +264,12 @@
         layer.bindPopup(popupContent);
     }
 
+    // Afficher le trajet de l'oiseau
     async function afficherTrajetOiseau() {
         const response = await fetch("/static/data/data_js.json");
         const data = await response.json();
 
+        // Filtrer les données pour cet oiseau uniquement
         const featuresOiseau = data.features.filter(function(feature) {
             return feature.properties.nom === birdCode;
         });
@@ -261,6 +280,7 @@
             return;
         }
 
+        // Tracer la ligne
         const coordonnees = featuresOiseau.map(function(feature) {
             return [
                 feature.geometry.coordinates[1],
@@ -269,11 +289,12 @@
         });
 
         const ligne = L.polyline(coordonnees, {
-            color: "#377eb8",
+            color: "#4CAF50",
             weight: 3,
             opacity: 0.8
         }).addTo(map);
 
+        // Tracer les points avec popup
         featuresOiseau.forEach(function(feature) {
             const latlng = [
                 feature.geometry.coordinates[1],
@@ -281,7 +302,7 @@
             ];
 
             const marker = L.circleMarker(latlng, {
-                color: "#377eb8",
+                color: "#4CAF50",
                 radius: 4,
                 fillOpacity: 0.8
             }).addTo(map);
@@ -289,6 +310,7 @@
             genererPopUp(feature, marker);
         });
 
+        // Centrer la carte sur le trajet
         map.fitBounds(ligne.getBounds(), { padding: [20, 20] });
     }
 

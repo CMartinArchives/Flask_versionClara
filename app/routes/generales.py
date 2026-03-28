@@ -93,42 +93,31 @@ def logout():
 
 @app.route("/bird/<string:falcon_id>", methods=["GET", "POST"])
 def bird_detail(falcon_id):
-    falcon = Falcon.query.get_or_404(falcon_id)
+    import csv
+    import json
+    import os
 
-    if request.method == "POST":
-        if not current_user.is_authenticated:
-            flash("Connecte-toi pour laisser un commentaire.")
-            return redirect(url_for("login"))
+    # Charger les surnoms
+    surnoms_path = os.path.join(app.static_folder, 'data', 'surnoms.json')
+    with open(surnoms_path, 'r', encoding='utf-8') as f:
+        surnoms = json.load(f)
 
-        content = request.form["comment"].strip()
+    # Récupérer les infos de l'oiseau depuis le CSV
+    bird = None
+    with open('donnees.csv', 'r', encoding='utf-8') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            if row['individual-local-identifier'] == falcon_id:
+                bird = {
+                    'falcon_id': falcon_id,
+                    'falcon_code': falcon_id,
+                    'nickname': surnoms.get(falcon_id, 'NONE'),
+                    'tag_id': row.get('tag-local-identifier', None),
+                    'espece': row.get('individual-taxon-canonical-name', 'Non renseignée')
+                }
+                break  # on s'arrête dès qu'on a trouvé l'oiseau
 
-        if not content:
-            flash("Le commentaire ne peut pas être vide.")
-            return redirect(url_for("bird_detail", falcon_id=falcon_id))
-
-        comment = Comment(
-            content=content,
-            user_id=current_user.user_id,
-            falcon_id=falcon.falcon_id
-        )
-
-        db.session.add(comment)
-        db.session.commit()
-
-        flash("Commentaire ajouté.")
-        return redirect(url_for("bird_detail", falcon_id=falcon_id))
-
-    comments = Comment.query.filter_by(
-        falcon_id=falcon.falcon_id
-    ).order_by(
-        Comment.created_at.desc()
-    ).all()
-
-    return render_template(
-        "bird_detail.html",
-        bird=falcon,
-        comments=comments
-    )
+    return render_template("bird_detail.html", bird=bird, comments=[])
 
 
 @app.route("/bird")
@@ -169,12 +158,13 @@ def dataviz():
 
 @app.route("/birds")
 def birds():
-    # couleur unique par oiseau comme sur la carte
+    # Couleur unique par oiseau
     couleurs = [
         '#e41a1c', '#377eb8', '#4daf4a', '#984ea3',
         '#ff7f00', '#a65628', '#f781bf', '#999999',
         '#17becf', '#bcbd22', '#ff9896', '#aec7e8'
     ]
+
     # Charger les surnoms
     surnoms_path = os.path.join(app.static_folder, 'data', 'surnoms.json')
     with open(surnoms_path, 'r', encoding='utf-8') as f:
@@ -191,10 +181,11 @@ def birds():
                 seen.add(identifiant)
                 oiseaux.append({
                     'falcon_id': identifiant,
-                    'falcon_code': identifiant,
+                    'falcon_code': identifiant,                          # ← code faucon
                     'nickname': surnoms.get(identifiant, 'NONE'),
                     'tag_id': row.get('tag-local-identifier', None),
-                    'espece': row.get('individual-taxon-canonical-name', 'Non renseignée')
+                    'espece': row.get('individual-taxon-canonical-name', 'Non renseignée'),
+                    'couleur': couleurs[len(oiseaux) % len(couleurs)]   # ← couleur ajoutée
                 })
 
     return render_template("birds.html", birds=oiseaux)
