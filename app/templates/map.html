@@ -84,9 +84,9 @@
     let toutesLesDonnees = null;
     let couchesActives = [];
 
-    // ↓↓↓ MODIFICATION — Remplir le select avec les surnoms ↓↓↓
+    
     function remplirFiltres(data) {
-        // Créer un dictionnaire code → surnom
+        
         const oiseaux = {};
         data.features.forEach(f => {
             oiseaux[f.properties.nom] = f.properties.surnom;
@@ -100,9 +100,9 @@
             select.appendChild(option);
         });
     }
-    // ↑↑↑ FIN MODIFICATION ↑↑↑
+    
 
-    // ↓↓↓ MODIFICATION — Popup avec surnom ↓↓↓
+    // Popup 
     function genererPopUp(feature, layer) {
         layer.on({
             'click': function(e) {
@@ -171,7 +171,7 @@
 
         layer.bindPopup(popupContent);
     }
-    // ↑↑↑ FIN MODIFICATION ↑↑↑
+   
 
     // Afficher les données filtrées sur la carte
     function afficherDonnees(data) {

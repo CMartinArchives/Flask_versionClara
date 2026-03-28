@@ -18,15 +18,65 @@ source env/bin/activate
 
 ---
 
-## 3. Installer les dépendances
+## 3. Installer les dépendances de l'application
 
 ```bash
 pip install -r requirements.txt
 ```
 
 ---
+## 4. Installations pour visualiser la carte interactive en javascript
 
-## 4. Configurer les variables d’environnement
+Télécharger et installer Node.js (version LTS) à l'adresse https://nodejs.org/fr/download et télécharger la version LTS
+
+```node
+# Télécharger et installer nvm :
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
+
+# au lieu de redémarrer le shell
+\. "$HOME/.nvm/nvm.sh"
+
+# Télécharger et installer Node.js :
+nvm install 24
+
+# Vérifiez la version de Node.js :
+node -v # Doit afficher "v24.14.1".
+
+# Vérifier la version de npm :
+npm -v # Doit afficher "11.11.0".
+```
+
+Vérifier l'installation
+
+```
+node --version
+npm --version
+```
+
+Initialiser npm dans le projet (veiller à être dans le dossier du projet)
+
+```
+npm init -y
+```
+Installer Leaflet
+
+```
+npm install leaflet
+```
+
+Les fichiers Leaflet leaflet.css, leaflet.js et les images associées contenues dans node_modules/leaflet/dist doivent être placés dans le dossier static de l'application (dans ce git ces fichiers sont dors et déjà au bon emplacement).
+
+## 5. Générrer le fichier GeoJSON
+La carte interactive utilise les données sur le faucons contenues dans le fichier donnees.csv, données converties au format json (fichier data_js.json) par le script csv_to_geojson.py.
+
+Pour obtenir le fichier data_js.json par l'exécution du script csv_to_geojson.py :
+
+```script csv to json
+python csv_to_geojson.py
+```
+Dans ce dépôt git le fichier data_js.json est déjà prêt à l'emploi
+
+## 6. Configurer les variables d’environnement
 
 Transformer le fichier envexample en fichier .env à la racine du projet (ne pas oublier de préciser son mot de passe) :
 
@@ -44,7 +94,7 @@ SECRET_KEY=dev
 
 ---
 
-## 5. Vérifier que la base PostgreSQL existe
+## 7. Vérifier que la base PostgreSQL existe
 
 La base utilisée est :
 
@@ -84,7 +134,8 @@ CREATE TABLE crec.comment (
 
 ---
 
-## 6. Lancer le serveur Flask
+## 8. Lancer le serveur Flask
+
 
 ```bash
 python3 run.py
@@ -96,7 +147,7 @@ http://127.0.0.1:5000
 
 ---
 
-## 7. Arrêter le serveur
+## 9. Arrêter le serveur
 
 Dans le terminal :
 
